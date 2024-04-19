@@ -12,14 +12,9 @@ class Submission {
         // Play audio
         var audio = new Audio();
         audio.src = 'https://a1.asurahosting.com:10060/radio.mp3';
-        audio.play();
-
-        // Здесь можно добавить какие-то дополнительные действия, связанные с выполнением задачи
-        // Например:
-        // Вызов другой функции или выполнение других действий
-        
+        audio.play();    
         // Store the result in NeDB (optional)
-        const value = 'Audio played'; // Можно установить любое значение, например, уведомление о проигрывании аудио
+        const value = 'Audio played';
         if (value) {
             await namespaceWrapper.storeSet('value', value);
         }

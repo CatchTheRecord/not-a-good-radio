@@ -2,7 +2,7 @@
 task_name: 'not a good radio'
 author: 'CatchTheRecord'
 description: 'Listen a world sounds and get a rewards'
-repositoryUrl: 'https://github.com/koii-network/task-template' #replace with your own repo url
+repositoryUrl: 'https://github.com/CatchTheRecord/not-a-good-radio' #replace with your own repo url
 imageUrl: 'imageUrl'
 
 # task_executable_network : DEVELOPMENT, ARWEAVE or IPFS

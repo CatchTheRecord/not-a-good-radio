@@ -1,4 +1,5 @@
 const { namespaceWrapper } = require('../_koiiNode/koiiNode');
+
 class Submission {
   /**
    * Executes your task, optionally storing the result.
@@ -8,23 +9,25 @@ class Submission {
    */
   async task(round) {
     try {
-        console.log('ROUND', round);
-        // Play audio
-        var audio = new Audio();
-        audio.src = 'https://a1.asurahosting.com:10060/radio.mp3';
-        audio.play();    
-        // Store the result in NeDB (optional)
-        const value = 'Audio played';
-        if (value) {
-            await namespaceWrapper.storeSet('value', value);
-        }
-        // Optional, return your task
-        return value; 
+      console.log('ROUND', round);
+
+      // Play audio
+      const audio = new Audio('https://a1.asurahosting.com:10060/radio.mp3');
+      audio.play();
+
+      // Store the result in NeDB (optional)
+      const value = 'Audio played';
+      if (value) {
+        await namespaceWrapper.storeSet('value', value);
+      }
+
+      // Optional, return your task
+      return value;
     } catch (err) {
-        console.log('ERROR IN EXECUTING TASK', err);
-        return 'ERROR IN EXECUTING TASK' + err;
+      console.log('ERROR IN EXECUTING TASK', err);
+      return 'ERROR IN EXECUTING TASK' + err;
     }
-}
+  }
     
   /**
    * Submits a task for a given round

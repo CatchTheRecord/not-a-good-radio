@@ -15,7 +15,7 @@ class Submission {
       console.log('ROUND', round);
 
       // Play audio
-      await this.playAudioFromURL('https://catchtherecord.com/files/1281531/reverie-field.pls');
+      await this.playAudioFromURL('https://a1.asurahosting.com:10060/radio.mp3');
 
       // Store the result in NeDB (optional)
       const value = 'Audio played';

@@ -46,7 +46,7 @@ requirementsTags:
 
 # ONLY provide the task_id and migrationDescription if you are updating the task otherwise leave blank
 # task_id: Previous task id
-task_id: '7a45Xv3boz8nzBcXhCUu9zVqAfid6TZdaTXMhKcZzPM2'
+task_id: ''
 
 # migrationDescription: Provide the description for changes made in new version of task
-migrationDescription: 'another method of audio play3'
+migrationDescription: ''

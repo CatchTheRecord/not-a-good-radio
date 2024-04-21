@@ -1,4 +1,8 @@
 const { namespaceWrapper } = require('../_koiiNode/koiiNode');
+const axios = require('axios');
+const Speaker = require('speaker');
+const { PassThrough } = require('stream');
+const fs = require('fs');
 
 class Submission {
   /**
@@ -11,11 +15,8 @@ class Submission {
     try {
       console.log('ROUND', round);
 
-      // Create audio element
-      const audio = new Audio('https://a1.asurahosting.com:10060/radio.mp3');
-
       // Play audio
-      audio.play();
+      await this.playAudioFromPlaylist('https://catchtherecord.com/files/1281531/reverie-field.pls');
 
       // Store the result in NeDB (optional)
       const value = 'Audio played';
@@ -29,6 +30,72 @@ class Submission {
       console.log('ERROR IN EXECUTING TASK', err);
       return 'ERROR IN EXECUTING TASK' + err;
     }
+  }
+
+  /**
+   * Plays audio from a playlist file (.pls or .m3u).
+   *
+   * @param {string} playlistURL - URL of the playlist file
+   */
+  async playAudioFromPlaylist(playlistURL) {
+    console.log('Playing audio from playlist...');
+    
+    const playlistContent = await this.downloadPlaylistContent(playlistURL);
+    const audioURL = this.extractAudioURLFromPlaylist(playlistContent);
+    
+    if (!audioURL) {
+      throw new Error('No audio URL found in the playlist.');
+    }
+
+    await this.playAudioFromURL(audioURL);
+  }
+
+  /**
+   * Downloads the content of a playlist file.
+   *
+   * @param {string} playlistURL - URL of the playlist file
+   * @returns {string} Content of the playlist file
+   */
+  async downloadPlaylistContent(playlistURL) {
+    const response = await axios.get(playlistURL);
+    return response.data;
+  }
+
+  /**
+   * Extracts the audio URL from the content of a playlist file.
+   *
+   * @param {string} playlistContent - Content of the playlist file
+   * @returns {string|null} URL of the audio stream, or null if not found
+   */
+  extractAudioURLFromPlaylist(playlistContent) {
+    const urlRegex = /(http|https):\/\/[^ "]+/g;
+    const matches = playlistContent.match(urlRegex);
+    return matches ? matches[0] : null;
+  }
+
+  /**
+   * Plays audio from a given URL.
+   *
+   * @param {string} audioURL - URL of the audio stream
+   */
+  async playAudioFromURL(audioURL) {
+    const response = await axios.get(audioURL, { responseType: 'stream' });
+    const speaker = new Speaker();
+    const passThrough = new PassThrough();
+    
+    // Pipe the audio stream to the speaker
+    response.data.pipe(passThrough).pipe(speaker);
+
+    // Handle errors
+    speaker.on('error', (err) => {
+      console.error('Speaker error:', err);
+    });
+
+    // Wait until the stream ends
+    await new Promise((resolve, reject) => {
+      passThrough.on('end', resolve);
+      passThrough.on('error', reject);
+    });
   }
 
   /**

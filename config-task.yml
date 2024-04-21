@@ -1,9 +1,9 @@
 # Name and metadata of your task
-task_name: 'Not-A-Good-Radio'
+task_name: 'Not A Good Radio'
 author: 'CatchTheRecord'
-description: 'Listen a world sounds and get a rewards. This is already my 12312321version. And I think it still doesn't work. Your node can't play audio'
+description: 'Listen a world sounds from node directly and get a rewards'
 repositoryUrl: 'https://github.com/CatchTheRecord/not-a-good-radio' #replace with your own repo url
-imageUrl: 'imageUrl'
+imageUrl: 'https://indigo-eldest-dingo-769.mypinata.cloud/ipfs/QmP87oa5fAm2c39vV4wbbLq9FNak5b1apG3M8AdQFG7wMX'
 
 # task_executable_network : DEVELOPMENT, ARWEAVE or IPFS
 # IPFS is the default value, as the CLI automatically manages the upload process via Spheron.

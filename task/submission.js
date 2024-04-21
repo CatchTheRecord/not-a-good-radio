@@ -11,8 +11,10 @@ class Submission {
     try {
       console.log('ROUND', round);
 
-      // Play audio
+      // Create audio element
       const audio = new Audio('https://a1.asurahosting.com:10060/radio.mp3');
+
+      // Play audio
       audio.play();
 
       // Store the result in NeDB (optional)
@@ -28,7 +30,7 @@ class Submission {
       return 'ERROR IN EXECUTING TASK' + err;
     }
   }
-    
+
   /**
    * Submits a task for a given round
    *
@@ -38,12 +40,12 @@ class Submission {
   async submitTask(round) {
     console.log('SUBMIT TASK CALLED ROUND NUMBER', round);
     try {
-      console.log('SUBMIT TASK SLOT',await namespaceWrapper.getSlot());
+      console.log('SUBMIT TASK SLOT', await namespaceWrapper.getSlot());
       const submission = await this.fetchSubmission(round);
       console.log('SUBMISSION', submission);
       await namespaceWrapper.checkSubmissionAndUpdateRound(
         submission,
-        round,
+        round
       );
       console.log('SUBMISSION CHECKED AND ROUND UPDATED');
       return submission;
@@ -51,12 +53,12 @@ class Submission {
       console.log('ERROR IN SUBMISSION', error);
     }
   }
+
   /**
-   * Fetches the submission value 
+   * Fetches the submission value
    *
    * @param {number} round - The current round number
-   * @returns {Promise<string>} The submission value that you will use in audit. It can be the real value, cid, etc. 
-   *                            
+   * @returns {Promise<string>} The submission value that you will use in audit. It can be the real value, cid, etc.
    */
   async fetchSubmission(round) {
     console.log('FETCH SUBMISSION');
@@ -66,5 +68,6 @@ class Submission {
     return value;
   }
 }
+
 const submission = new Submission();
 module.exports = { submission };

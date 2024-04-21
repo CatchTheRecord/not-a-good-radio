@@ -1,7 +1,7 @@
 # Name and metadata of your task
-task_name: 'not a good radio'
+task_name: 'Not-A-Good-Radio'
 author: 'CatchTheRecord'
-description: 'Listen a world sounds and get a rewards'
+description: 'Listen a world sounds and get a rewards. This is already my 12312321version. And I think it still doesn't work. Your node can't play audio'
 repositoryUrl: 'https://github.com/CatchTheRecord/not-a-good-radio' #replace with your own repo url
 imageUrl: 'imageUrl'
 
@@ -40,7 +40,7 @@ requirementsTags:
   - type: RAM
     value: '1 GB'
   - type: STORAGE
-    value: '0.5 GB'
+    value: '1 GB'
 
 # OPTIONAL variables variables for creating task / REQUIRED variables for update task
 

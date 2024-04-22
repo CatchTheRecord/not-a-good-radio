@@ -6,9 +6,9 @@ async function test_coreLogic() {
   const round = 1;
   await coreLogic.task(round);
   const submission = await coreLogic.submitTask(round);
-  console.log('Receive test submission', submission);
+  console.log('Получено тестовое представление', submission);
   const audit = await task.audit.validateNode(submission, round);
-  // let vote = true;
+
   const _dummyTaskState = {
     stake_list: {
       '2NstaKU4kif7uytmS2PQi9P5M5bDLYSF2dhUNFhJbxHL': 20000000000,
@@ -32,27 +32,27 @@ async function test_coreLogic() {
     },
     submissions_audit_trigger: {
       1: {
-        // round number
+        // Номер раунда
         '2NstaKU4kif7uytmS2PQi9P5M5bDLYSF2dhUNFhJbxHL': {
-          // Data Submitter (send data to K2)
-          trigger_by: '2NstaKU4kif7uytmS2PQi9P5M5bDLYSF2dhUNFhJbxHH', // Audit trigger
+          // Отправитель данных (отправить данные в K2)
+          trigger_by: '2NstaKU4kif7uytmS2PQi9P5M5bDLYSF2dhUNFhJbxHH', // Аудит триггер
           slot: 1890002,
           votes: [
             {
-              is_valid: false, // Submission is invalid(Slashed)
-              voter: '2NstaKU4kif7uytmS2PQi9P5M5bDLYSF2dhUNFhJbxHZ', // Voter
+              is_valid: false, // Представление недействительно (Слэш)
+              voter: '2NstaKU4kif7uytmS2PQi9P5M5bDLYSF2dhUNFhJbxHZ', // Голосующий
               slot: 1890003,
             },
           ],
         },
         '2NstaKU4kif7uytmS2PQi9P5M5bDLYSF2dhUNFhJbxHH': {
-          // Data Submitter (send data to K2)
-          trigger_by: '2NstaKU4kif7uytmS2PQi9P5M5bDLYSF2dhUNFhJbxHL', // Audit trigger
+          // Отправитель данных (отправить данные в K2)
+          trigger_by: '2NstaKU4kif7uytmS2PQi9P5M5bDLYSF2dhUNFhJbxHL', // Аудит триггер
           slot: 1890002,
           votes: [
             {
-              is_valid: true, // Submission is valid
-              voter: '2NstaKU4kif7uytmS2PQi9P5M5bDLYSF2dhUNFhJbxHZ', // Voter
+              is_valid: true, // Представление действительно
+              voter: '2NstaKU4kif7uytmS2PQi9P5M5bDLYSF2dhUNFhJbxHZ', // Голосующий
               slot: 1890003,
             },
           ],
@@ -60,13 +60,13 @@ async function test_coreLogic() {
       },
     },
   };
-  if (audit == true) {
-    console.log('Submission is valid, generating distribution list');
-    await coreLogic.submitDistributionList(round);
 
+  if (audit === true) {
+    console.log('Представление действительно, генерируем список распределения');
+    await task.distribution.submitDistributionList(round);
     await task.distribution.auditDistribution(round);
   } else {
-    console.log('Submission is invalid, not generating distribution list');
+    console.log('Представление недействительно, список распределения не генерируется');
   }
 }
 

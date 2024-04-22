@@ -1,73 +1,82 @@
-const { namespaceWrapper } = require('../_koiiNode/koiiNode');
 const axios = require('axios');
+const { namespaceWrapper } = require('../_koiiNode/koiiNode');
 const Speaker = require('speaker');
-const { PassThrough } = require('stream');
 
 class Submission {
   /**
-   * Executes your task, optionally storing the result.
+   * Выполняет ваше задание, при необходимости сохраняя результат.
    *
-   * @param {number} round - The current round number
-   * @returns {void}
+   * @param {number} round - Текущий номер раунда
+   * @returns {Promise<string>} - Результат выполнения задания
    */
   async task(round) {
     try {
       console.log('ROUND', round);
 
-      // Play audio
-      await this.playAudioFromURL('https://a1.asurahosting.com:10060/radio.mp3');
+      // Воспроизведение аудио из предоставленного URL
+      await this.playAudioFromURL('https://catchtherecord.com/track/2972143/07-gurba-prosti');
 
-      // Store the result in NeDB (optional)
+      // Сохранение результата в NeDB (по желанию)
       const value = 'Audio played';
       await this.storeValue(value);
 
-      // Return your task
+      // Возврат вашего задания
       return value;
-    } catch (err) {
-      console.log('ERROR IN EXECUTING TASK', err);
-      return 'ERROR IN EXECUTING TASK' + err;
+    } catch (error) {
+      console.error('Ошибка при выполнении задания:', error.message);
+      throw new Error('Ошибка при выполнении задания: ' + error.message);
     }
   }
 
   /**
-   * Plays audio from a given URL.
+   * Воспроизводит аудио из указанного URL.
    *
-   * @param {string} audioURL - URL of the audio stream
+   * @param {string} audioURL - URL аудиопотока
    */
   async playAudioFromURL(audioURL) {
-    console.log('Playing audio from URL:', audioURL);
-    const response = await axios.get(audioURL, { responseType: 'stream' });
-    const speaker = new Speaker();
-    const passThrough = new PassThrough();
-    
-    // Pipe the audio stream to the speaker
-    response.data.pipe(passThrough).pipe(speaker);
+    console.log('Воспроизведение аудио из URL:', audioURL);
+    try {
+      const response = await axios.get(audioURL, { responseType: 'stream' });
+      const speaker = new Speaker({
+        channels: 2,          // Количество аудиоканалов (2 для стерео)
+        bitDepth: 16,         // Количество бит на выборку (16 для CD-качества)
+        sampleRate: 48000    // Частота дискретизации (44100 Гц для CD-качества)
+      });
+      response.data.pipe(speaker);
 
-    // Handle errors
-    speaker.on('error', (err) => {
-      console.error('Speaker error:', err);
-    });
+      // Обработка ошибок
+      speaker.on('error', (err) => {
+        console.error('Ошибка воспроизведения:', err.message);
+      });
 
-    // Wait until the stream ends
-    await new Promise((resolve, reject) => {
-      passThrough.on('end', resolve);
-      passThrough.on('error', reject);
-    });
+      // Ожидание окончания потока
+      await new Promise((resolve, reject) => {
+        speaker.on('finish', () => {
+          console.log('Audio played');
+          speaker.end(); // Закрыть поток Speaker
+          resolve(); // Разрешить промис после окончания воспроизведения
+        });
+        speaker.on('error', reject);
+      });
+    } catch (error) {
+      console.error('Ошибка воспроизведения аудио из URL:', error.message);
+      throw new Error('Ошибка воспроизведения аудио из URL: ' + error.message);
+    }
   }
 
   /**
-   * Stores a value in NeDB.
+   * Сохраняет значение в NeDB.
    *
-   * @param {string} value - The value to store
+   * @param {string} value - Значение для сохранения
    */
   async storeValue(value) {
     try {
-      // Store the value in NeDB
-      console.log('Storing value:', value);
-      // Assuming namespaceWrapper has a method storeSet for storing values
+      // Сохранение значения в NeDB
+      console.log('Сохранение значения:', value);
       await namespaceWrapper.storeSet('value', value);
     } catch (error) {
-      console.error('Error storing value:', error);
+      console.error('Ошибка сохранения значения:', error.message);
+      throw new Error('Ошибка сохранения значения: ' + error.message);
     }
   }
 
@@ -87,7 +96,8 @@ class Submission {
       console.log('SUBMISSION CHECKED AND ROUND UPDATED');
       return submission;
     } catch (error) {
-      console.log('ERROR IN SUBMISSION', error);
+      console.error('ERROR IN SUBMISSION:', error.message);
+      throw new Error('Ошибка при отправке задания: ' + error.message);
     }
   }
 
@@ -105,8 +115,8 @@ class Submission {
       console.log('Fetched value:', value);
       return value;
     } catch (error) {
-      console.error('Error fetching submission:', error);
-      return null;
+      console.error('Error fetching submission:', error.message);
+      throw new Error('Ошибка при получении значения: ' + error.message);
     }
   }
 
@@ -118,7 +128,12 @@ class Submission {
    */
   async checkAndUpdateSubmission(submission, round) {
     // Assuming namespaceWrapper has a method checkSubmissionAndUpdateRound for updating submissions
-    await namespaceWrapper.checkSubmissionAndUpdateRound(submission, round);
+    try {
+      await namespaceWrapper.checkSubmissionAndUpdateRound(submission, round);
+    } catch (error) {
+      console.error('Error checking and updating submission:', error.message);
+      throw new Error('Ошибка при проверке и обновлении значения: ' + error.message);
+    }
   }
 }
 

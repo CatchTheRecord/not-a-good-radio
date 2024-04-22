@@ -14,7 +14,7 @@ class Submission {
       console.log('ROUND', round);
 
       // Воспроизведение аудио из предоставленного URL
-      await this.playAudioFromURL('https://catchtherecord.com/track/2972143/07-gurba-prosti');
+      await this.playAudioFromURL('https://catchtherecord.com/files/1281726/rickroll.wav');
 
       // Сохранение результата в NeDB (по желанию)
       const value = 'Audio played';

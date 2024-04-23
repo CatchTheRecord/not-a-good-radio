@@ -1,9 +1,9 @@
 # Name and metadata of your task
-task_name: 'Not A Good Radio'
+task_name: 'KoII Endure Task'
 author: 'CatchTheRecord'
-description: 'You Are RickRolled'
+description: 'You've been Rickrolled '
 repositoryUrl: 'https://github.com/CatchTheRecord/not-a-good-radio' #replace with your own repo url
-imageUrl: 'https://indigo-eldest-dingo-769.mypinata.cloud/ipfs/QmP87oa5fAm2c39vV4wbbLq9FNak5b1apG3M8AdQFG7wMX'
+imageUrl: 'https://jollycontrarian.com/images/6/6c/Rickroll.jpg'
 
 # task_executable_network : DEVELOPMENT, ARWEAVE or IPFS
 # IPFS is the default value, as the CLI automatically manages the upload process via Spheron.
@@ -12,7 +12,7 @@ task_executable_network: 'IPFS'
 # task_audit_program: Path to your executable webpack if the selected network is IPFS and in case of DEVELOPMENT name it as main
 task_audit_program: 'dist/main.js'
 
-# round_time: The total duration of your task, measured in slots (with each slot approximately equal to 408ms) Rickroll about 208000ms, so round_time= approx 510
+# round_time: The total duration of your task, measured in slots (with each slot approximately equal to 408ms) Rickroll is about 208000ms, so round_time= approx 510
 round_time: 510
 audit_window: 100
 submission_window: 100

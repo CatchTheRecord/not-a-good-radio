@@ -12,10 +12,10 @@ task_executable_network: 'IPFS'
 # task_audit_program: Path to your executable webpack if the selected network is IPFS and in case of DEVELOPMENT name it as main
 task_audit_program: 'dist/main.js'
 
-# round_time: The total duration of your task, measured in slots (with each slot approximately equal to 408ms)
-round_time: 1500
-audit_window: 350
-submission_window: 350
+# round_time: The total duration of your task, measured in slots (with each slot approximately equal to 408ms) Rickroll about 208000ms, so round_time= approx 510
+round_time: 510
+audit_window: 100
+submission_window: 100
 
 # minimum_stake_amount: The minimum amount of KOII that a user must stake in order to participate in the task
 minimum_stake_amount: 0.1
